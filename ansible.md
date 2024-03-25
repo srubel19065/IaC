@@ -37,6 +37,8 @@ The controller coomunicates to the nodes but they are agentless. So to communica
 Ansible uses adhoc commands to automate single tasks to multiple nodes, Very simple
 1. Follows: `sudo ansible <group if needed>-a "<what you want it to do>"`
 2. e.g; `sudo ansible web -a "uname -a"`
+
+
 ### Copying pem file to node:
    - `sudo ansible web -m ansible.builtin.copy -a "src=~/.ssh/tech257.pem dest=~/.ssh`
-  ![Alt text](Images/ansible-scp.png.png)
+  ![Alt text](Images/ansible-scp.png)
