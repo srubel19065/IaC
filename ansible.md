@@ -74,4 +74,5 @@ Ansible uses adhoc commands to automate single tasks to multiple nodes, Very sim
        - if you use `|` it allows multi line command entering
    4. First go to the agent app and do npm start and the app should run
    5. Go back to the controller script and make it run in the background by killing any node processes and then using `nohup node app.js > /dev/null 2>&1 &` 
+   
    ![Alt text](Images/node-playbook.png) 
