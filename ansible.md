@@ -42,3 +42,36 @@ Ansible uses adhoc commands to automate single tasks to multiple nodes, Very sim
 ### Copying pem file to node:
    - `sudo ansible web -m ansible.builtin.copy -a "src=~/.ssh/tech257.pem dest=~/.ssh`
   ![Alt text](Images/ansible-scp.png)
+
+
+## Playbook
+**A playbook is the script that is used for ansible, uses yaml**
+
+### Steps for nginx playbook
+1. `sudo nano <playbook-name>`
+2. We need to give it commands:
+   1. `---`  this is at the beginning and shows interpreter that it is a yaml file
+   2. `gather_facts: yes` - shows logs, this is optional and isnt needed
+   3. `become: true` - this gives sudo permissions
+   4. `tasks:` - everything after this is the instructions for each task that is specified
+3. Indentation matters 
+
+#### nginx playbook
+1. `---`  this is at the beginning and shows interpreter that it is a yaml file
+2. `gather_facts: yes` - shows logs, this is optional and isnt needed
+3. `become: true` - this gives sudo permissions
+4. Name the task and to install nginx, you use `apt: pkg=nginx state=present` - this installs nginx and makes it run
+![Alt text](Images/nginx-playbook.png)
+
+### node playbook
+1. `---`  this is at the beginning and shows interpreter that it is a yaml file
+2. `gather_facts: yes` - shows logs, this is optional and isnt needed
+3. `become: true` - this gives sudo permissions
+4. Tasks:
+   1. install nodejs - if you specificy `shell: ...` you can put in shell commands
+   2. Clone the git repo that has the app folder
+   3. Cd into the app folder and install npm
+       - if you use `|` it allows multi line command entering
+   4. First go to the agent app and do npm start and the app should run
+   5. Go back to the controller script and make it run in the background by killing any node processes and then using `nohup node app.js > /dev/null 2>&1 &` 
+   ![Alt text](Images/node-playbook.png) 
