@@ -67,3 +67,5 @@ Adv:
 DisAdv:
 - the initial configuration will need to be setup manually
 - will be slower than a push
+
+![alt text](ImagesTF/push-pull.png)
