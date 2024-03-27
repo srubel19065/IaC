@@ -1,0 +1,12 @@
+# interpreter knows its yaml by starting with ---
+---
+# where do you want to install or run this playbook
+- hosts: web
+# find the facts - would you like to see the logs (optional)
+  gather_facts: yes
+# provide admin access to this playbook - use sudo
+  become: true
+# instructions - tasks: install nginx in agent node
+  tasks:
+  - name: Configure/install nginx on the agent node
+    apt: pkg=nginx state=present

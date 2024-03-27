@@ -1,0 +1,23 @@
+# shows its yaml
+---
+
+# where would you like to install db
+- hosts: db
+# logs required
+  gather_facts: yes
+# allow admin access
+  become: true
+# instructions
+  tasks:
+  - name: Install mongodb in db-server
+    apt: pkg=mongodb state=present
+
+  - name: Change Bind ip
+    shell: |
+      sudo sed -i 's@127.0.0.1@0.0.0.0@' /etc/mongodb.conf
+      sudo sed -i 's@#port = 27017@port = 27017@' /etc/mongodb.conf
+
+  - name: Restart the mongodb
+    service:
+     name: mongodb
+     state: restarted

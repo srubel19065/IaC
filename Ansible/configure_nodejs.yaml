@@ -1,0 +1,33 @@
+---
+# where to install
+- hosts: web
+# show logs
+  gather_facts: yes
+# become sudo
+  become: true
+# instructions
+  tasks:
+  - name: Configure/install nodejs on the agent node
+    shell: curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash - && sudo apt-get install -y nodejs
+
+  - name: Clone Git repo
+    shell: git clone https://github.com/srubel19065/tech257_cicd.git
+    args:
+     creates: tech257_cicd/
+
+  - name: Set environment variable
+    ansible.builtin.shell: |
+      export DB_HOST='mongodb://18.201.59.211:27017/posts'
+
+  - name: cd into app folder and install npm
+    shell: |
+      cd tech257_cicd/app
+      npm install
+
+  - name: install npm and pm2
+      shell: |
+        sudo npm install
+        sudo npm install pm2@latest -g
+        pm2 kill
+        pm2 start app.js
+        pm2 save
