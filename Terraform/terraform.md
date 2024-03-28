@@ -69,3 +69,11 @@ DisAdv:
 - will be slower than a push
 
 ![alt text](ImagesTF/push-pull.png)
+
+## Variable
+Its best practice to not show details of resources in the runner file (main.tf) so we can setup another file that stores variables
+1. Create variable.tf
+2. Use the `variable` module followed by what you want to call the variable: `variable "variable" {`
+3. `default = "<what you want to become a variable>"
+
+## Auto creating github repo

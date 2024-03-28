@@ -13,29 +13,33 @@ resource "aws_instance" "tech257_rubel_terraform_app" {
     ami = var.app_ami_id
 
 # what type of instance 
-    instance_type = "t2.micro"
+    #instance_type = "t2.micro"
+    instance_type = var.app_instance_type
 
 # please add a public ip to this instance
-    associate_public_ip_address = true
+    #associate_public_ip_address = true
+    associate_public_ip_address = var.app_public_ip
 
 # aws_access_key = ... <<< MUST NOT DO THIS
 # aws_secret_key = ... <<< MUST NOT DO THIS
 
 # Adding a key pair to use to ssh in
-    key_name = "tech257"
+    #key_name = "tech257"
+    key_name = var.app_key
 
 # The security group created needs to be put into the instance
     security_groups = [aws_security_group.tech257_rubel_terraform_app_sg.name]
-    
+
 # name the service
     tags = {
-        Name = "tech257_rubel_terraform_app"
+        #Name = "tech257_rubel_terraform_app"
+        Name = var.app_tag_name
     }
 }
 # creating security group with 3 ports
 resource "aws_security_group" "tech257_rubel_terraform_app_sg" {
 
-    name = "tech257_rubel_terraform_app_sg"
+    name = var.app_sg
     description = "Security group allowing port 22 from local host, port 3000 and port 80 to be accessed"
     
         ingress {                     # ingress means inbound rules
@@ -58,3 +62,26 @@ resource "aws_security_group" "tech257_rubel_terraform_app_sg" {
             cidr_blocks = ["0.0.0.0/0"]
         }
 }
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.42.0"
+    }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
+  }    # Providing version of github
+}
+provider "github" {
+  token = var.github_token
+} # where you want to create the repo with the token linked to the creation location account
+
+resource "github_repository" "multi-provider-terraform" {
+  name = "multi-provider-terraform"
+  description = "Repo for multi provider terraform"
+
+   visibility = "public"
+} # creates the repo with name, description and whether it will be public or not

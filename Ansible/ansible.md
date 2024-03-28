@@ -30,7 +30,7 @@
 ## Communicating controller to agents
 The controller coomunicates to the nodes but they are agentless. So to communicate we need to give ansible a place to send information to and this is the *HOSTS* file. It stored endpoints
 1. `sudo nano hosts` - open hosts file to insert endpoint
-2. `ec2-instance ansible_host=<agent ip> ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/<key>` - Above this will need to add `[GroupName]` as it indicates all endpoints below it are part of a group
+2. `ec2-instance ansible_host=<agent ip>ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/<key>` - Above this will need to add `[GroupName]` as it indicates all endpoints below it are part of a group
 3. `sudo ansible all -m ping` - pings all hosts and gives a reply of 'pong' if success
 
 ## Adhoc Commands
@@ -40,7 +40,7 @@ Ansible uses adhoc commands to automate single tasks to multiple nodes, Very sim
 
 
 ### Copying pem file to node:
-   - `sudo ansible web -m ansible.builtin.copy -a "src=~/.ssh/tech257.pem dest=~/.ssh"`
+   - `sudo ansible web -m ansible.builtin.copy -a "src=~/.ssh/tech257.pem dest=~/.ssh`
   ![Alt text](Images/ansible-scp.png)
 
 
@@ -51,10 +51,9 @@ Ansible uses adhoc commands to automate single tasks to multiple nodes, Very sim
 1. `sudo nano <playbook-name>`
 2. We need to give it commands:
    1. `---`  this is at the beginning and shows interpreter that it is a yaml file
-   2. `- hosts: <where>`
-   3. `gather_facts: yes` - shows logs, this is optional and isnt needed
-   4. `become: true` - this gives sudo permissions
-   5. `tasks:` - everything after this is the instructions for each task that is specified
+   2. `gather_facts: yes` - shows logs, this is optional and isnt needed
+   3. `become: true` - this gives sudo permissions
+   4. `tasks:` - everything after this is the instructions for each task that is specified
 3. Indentation matters 
 
 #### nginx playbook
@@ -66,10 +65,9 @@ Ansible uses adhoc commands to automate single tasks to multiple nodes, Very sim
 
 ### node playbook
 1. `---`  this is at the beginning and shows interpreter that it is a yaml file
-2. `hosts: ` - set the location of where you want the playbook ran
-3. `gather_facts: yes` - shows logs, this is optional and isnt needed
-4. `become: true` - this gives sudo permissions
-5. Tasks:
+2. `gather_facts: yes` - shows logs, this is optional and isnt needed
+3. `become: true` - this gives sudo permissions
+4. Tasks:
    1. install nodejs - if you specificy `shell: ...` you can put in shell commands
    2. Clone the git repo that has the app folder
    3. Cd into the app folder and install npm
@@ -78,27 +76,3 @@ Ansible uses adhoc commands to automate single tasks to multiple nodes, Very sim
    5. Go back to the controller script and make it run in the background by killing any node processes and then using `nohup node app.js > /dev/null 2>&1 &` 
    
    ![Alt text](Images/node-playbook.png) 
-
-### database playbook
-1. `---`  this is at the beginning and shows interpreter that it is a yaml file
-2. `hosts: ` - set the location of where you want the playbook ran
-3. `gather_facts: yes` - shows logs, this is optional and isnt needed
-4. `become: true` - this gives sudo permissions
-5. Tasks:
-   1. Install mongodb - `- name: Install mongodb in db-server
-    apt: pkg=mongodb state=present`
-   2. Change Bind ip - `- name: Change Bind ip
-    shell: |
-      sudo sed -i 's@127.0.0.1@0.0.0.0@' /etc/mongodb.conf
-      sudo sed -i 's@#port = 27017@port = 27017@' /etc/mongodb.conf`
-    3. restart mongo - `- name: Restart the mongodb
-    service:
-     name: mongodb
-     state: restarted`
-
-
-## Conncecting the database and app so they deploy together
-1. Create database playbook
-2. Add the previous script
-3. Within the app playbook, add an environment variable which puts the database ip allowing it to recongise a conncention between the two
-4. 

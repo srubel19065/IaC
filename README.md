@@ -44,3 +44,34 @@ Concept of infrastrcuture being managed by code and and software dev tools rathe
 3. Written in Python and YAML for congif files
 4. Agentless architecture - connects to manages systems with SSH or WinRM
 5. Powerful and Flexible
+
+## Terraform
+1. Open source tool developed by HashiCorp
+2. Define, provision and manage infrastructure
+
+## IaC - End to End infrastructure 
+### Terraform: 
+1. Provisioning:
+   1. Terraform configures the provisioning of infrastructure 
+   2. It uses .tf files with a runner file usually named main.tf
+   3. `main.tf` - Specifify the configuration of the resources you need created and terraform will run
+   4. Terraform will deploy to the cloud provider, the cloud provider will configure things like security groups etc
+   5. But on this infrastructure, no software/app is installed which is where we use Ansible
+![alt text](Images/terraform.png)
+### Ansible:
+1. Configuring:
+   1. Ansible configures the installation of updates and software
+   2. Uses playbooks to make scripts and then they can be ran which deploys an app or a service
+   3. So Ansible becomes the configuration management tool to install software
+   4. Playbook is efficient because it can run on multiple instances at once
+![alt text](Images/ansible.png)
+
+### How they work together?
+Terraform configures and provisions the infrastructure and then Ansible wil configure and install the software on the infrastructure provisioned.
+
+
+#### Why they should work together
+1. Ansible could easily configure and provision infrastructure just like terraform using a playbook. But it becomes a larger task with more input and complexity needed. 
+   - Ansible playbook to provision = 50+ lines whereas Terraform provisioning script = ~10 lines
+2. Terraform provisioning of infrastructure can be reused and maintained using the simple main.tf file therefore terraform to provision!
+#### *"Terraform builds the house and Ansible decorates it"*
