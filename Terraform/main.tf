@@ -9,18 +9,24 @@ provider "aws"{
 resource "aws_instance" "tech257_rubel_terraform_app" {
 
 # which AMI ID
-    ami = "ami-02f0341ac93c96375"
+    #ami = "ami-02f0341ac93c96375"
+    ami = var.app_ami_id
+
 # what type of instance 
     instance_type = "t2.micro"
+
 # please add a public ip to this instance
     associate_public_ip_address = true
+
 # aws_access_key = ... <<< MUST NOT DO THIS
 # aws_secret_key = ... <<< MUST NOT DO THIS
 
 # Adding a key pair to use to ssh in
     key_name = "tech257"
+
 # The security group created needs to be put into the instance
     security_groups = [aws_security_group.tech257_rubel_terraform_app_sg.name]
+    
 # name the service
     tags = {
         Name = "tech257_rubel_terraform_app"
